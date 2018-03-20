@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.472" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Recipes.Catalog.Domain\Recipes.Catalog.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

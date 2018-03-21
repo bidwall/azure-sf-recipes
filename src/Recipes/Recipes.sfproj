@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets=";ValidateMSBuildFiles">
   <Import Project="..\..\packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.6.5\build\Microsoft.VisualStudio.Azure.Fabric.Application.props" Condition="Exists('..\..\packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.6.5\build\Microsoft.VisualStudio.Azure.Fabric.Application.props')" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>5ea5e738-0046-4b35-b1ec-85b1b426cacd</ProjectGuid>
+    <ProjectGuid>34419630-084c-4fdf-8451-493dcdac768b</ProjectGuid>
     <ProjectVersion>2.0</ProjectVersion>
     <MinToolsVersion>1.5</MinToolsVersion>
     <SupportedMSBuildNuGetPackageVersion>1.6.5</SupportedMSBuildNuGetPackageVersion>
@@ -30,6 +30,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Recipes.Catalog\Recipes.Catalog.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

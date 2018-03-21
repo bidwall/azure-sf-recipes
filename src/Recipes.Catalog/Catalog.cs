@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Recipes.Catalog.Domain;
 
 namespace Recipes.Catalog
 {
@@ -15,6 +14,8 @@ namespace Recipes.Catalog
     /// </summary>
     internal sealed class Catalog : StatefulService
     {
+        private IRecipeRepository _repository;
+
         public Catalog(StatefulServiceContext context)
             : base(context)
         { }
@@ -38,31 +39,19 @@ namespace Recipes.Catalog
         /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service replica.</param>
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
+            _repository = new RecipeRepository(StateManager);
 
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
-
-            while (true)
+            var recipe = new Recipe
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                Id = Guid.NewGuid(),
+                Description = "A lovely recipe to share with your friends and family",
+                Name = "A nice recipe",
+                Servings = 2
+            };
 
-                using (var tx = this.StateManager.CreateTransaction())
-                {
-                    var result = await myDictionary.TryGetValueAsync(tx, "Counter");
+            await _repository.AddRecipe(recipe);
 
-                    ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
-                        result.HasValue ? result.Value.ToString() : "Value does not exist.");
-
-                    await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
-
-                    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                    // discarded, and nothing is saved to the secondary replicas.
-                    await tx.CommitAsync();
-                }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            }
+            var recipes = await _repository.GetAllRecipes();
         }
     }
 }

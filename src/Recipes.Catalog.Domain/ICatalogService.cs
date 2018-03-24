@@ -6,7 +6,7 @@ namespace Recipes.Catalog.Domain
 {
     public interface ICatalogService : IService
     {
-        Task<IEnumerable<Recipe>> GetRecipies();
+        Task<IEnumerable<Recipe>> GetRecipes();
         Task AddRecipe(Recipe recipe);
     }
 }

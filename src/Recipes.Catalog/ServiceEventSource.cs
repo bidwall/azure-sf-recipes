@@ -4,7 +4,7 @@ using System.Fabric;
 
 namespace Recipes.Catalog
 {
-    [EventSource(Name = "azure_sf_recipes-Recipes.Catalog")]
+    [EventSource(Name = "Recipes-Catalog")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

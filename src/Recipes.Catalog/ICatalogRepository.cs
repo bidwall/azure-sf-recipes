@@ -4,9 +4,9 @@ using Recipes.Catalog.Domain;
 
 namespace Recipes.Catalog
 {
-    public interface IRecipeRepository
+    public interface ICatalogRepository
     {
-        Task<IEnumerable<Recipe>> GetAllRecipes();
+        Task<IEnumerable<Recipe>> GetRecipes();
         Task AddRecipe(Recipe recipe);
     }
 }

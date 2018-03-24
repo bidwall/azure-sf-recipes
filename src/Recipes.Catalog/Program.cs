@@ -19,8 +19,7 @@ namespace Recipes.Catalog
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("Recipes.CatalogType",
-                    context => new Catalog(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("CatalogType", context => new Catalog(context)).GetAwaiter().GetResult();
 
                 ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Catalog).Name);
 

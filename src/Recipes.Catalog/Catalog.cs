@@ -13,12 +13,12 @@ namespace Recipes.Catalog
     /// </summary>
     internal sealed class Catalog : StatefulService, ICatalogService
     {
-        private readonly IRecipeRepository _repository;
+        private readonly ICatalogRepository _repository;
 
         public Catalog(StatefulServiceContext context)
             : base(context)
         {
-            _repository = new RecipeRepository(StateManager);
+            _repository = new CatalogRepository(StateManager);
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace Recipes.Catalog
             return this.CreateServiceRemotingReplicaListeners();
         }
 
-        public async Task<IEnumerable<Recipe>> GetRecipies()
+        public async Task<IEnumerable<Recipe>> GetRecipes()
         {
-            return await _repository.GetAllRecipes();
+            return await _repository.GetRecipes();
         }
 
         public async Task AddRecipe(Recipe recipe)

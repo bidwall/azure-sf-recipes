@@ -17,16 +17,16 @@ namespace Recipes.API.Controllers
 
         public RecipesController()
         {
-            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/Recipes.Catalog"), 
-                                                                                 new ServicePartitionKey(0));
+            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/Catalog"), 
+                                                                   new ServicePartitionKey(0));
         }
 
         [HttpGet]
         public async Task<IEnumerable<ApiRecipe>> Get()
         {
-            var allRecipies = await _catalogService.GetRecipies();
+            var recipes = await _catalogService.GetRecipes();
 
-            return allRecipies.Select(r => new ApiRecipe
+            return recipes.Select(r => new ApiRecipe
             {
                 Id = r.Id,
                 Description = r.Description,

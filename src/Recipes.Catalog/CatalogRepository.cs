@@ -8,16 +8,16 @@ using Recipes.Catalog.Domain;
 
 namespace Recipes.Catalog
 {
-    public class RecipeRepository : IRecipeRepository
+    public class CatalogRepository : ICatalogRepository
     {
         private readonly IReliableStateManager _stateManager;
 
-        public RecipeRepository(IReliableStateManager stateManager)
+        public CatalogRepository(IReliableStateManager stateManager)
         {
             _stateManager = stateManager;
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllRecipes()
+        public async Task<IEnumerable<Recipe>> GetRecipes()
         {
             var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>("recipes");
             var result = new List<Recipe>();

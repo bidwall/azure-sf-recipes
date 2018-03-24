@@ -11,7 +11,7 @@ namespace Recipes.Catalog
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Catalog : StatefulService, IRecipesCatalogService
+    internal sealed class Catalog : StatefulService, ICatalogService
     {
         private readonly IRecipeRepository _repository;
 
@@ -33,7 +33,7 @@ namespace Recipes.Catalog
             return this.CreateServiceRemotingReplicaListeners();
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllRecipies()
+        public async Task<IEnumerable<Recipe>> GetRecipies()
         {
             return await _repository.GetAllRecipes();
         }

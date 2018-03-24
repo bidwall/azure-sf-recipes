@@ -4,9 +4,9 @@ using Microsoft.ServiceFabric.Services.Remoting;
 
 namespace Recipes.Catalog.Domain
 {
-    public interface IRecipesCatalogService : IService
+    public interface ICatalogService : IService
     {
-        Task<IEnumerable<Recipe>> GetAllRecipies();
+        Task<IEnumerable<Recipe>> GetRecipies();
         Task AddRecipe(Recipe recipe);
     }
 }

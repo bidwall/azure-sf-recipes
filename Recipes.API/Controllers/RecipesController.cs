@@ -13,18 +13,18 @@ namespace Recipes.API.Controllers
     [Route("api/[controller]")]
     public class RecipesController : Controller
     {
-        private readonly IRecipesCatalogService _recipesCatalogService;
+        private readonly ICatalogService _catalogService;
 
         public RecipesController()
         {
-            _recipesCatalogService = ServiceProxy.Create<IRecipesCatalogService>(new Uri("fabric:/Recipes/Recipes.Catalog"), 
+            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/Recipes.Catalog"), 
                                                                                  new ServicePartitionKey(0));
         }
 
         [HttpGet]
         public async Task<IEnumerable<ApiRecipe>> Get()
         {
-            var allRecipies = await _recipesCatalogService.GetAllRecipies();
+            var allRecipies = await _catalogService.GetRecipies();
 
             return allRecipies.Select(r => new ApiRecipe
             {
@@ -53,7 +53,7 @@ namespace Recipes.API.Controllers
                 Servings = recipe.Servings
             };
 
-            await _recipesCatalogService.AddRecipe(newRecipe);
+            await _catalogService.AddRecipe(newRecipe);
         }
 
         // PUT api/values/5

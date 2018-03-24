@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Fabric;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Recipes.Catalog.Domain;
 
@@ -12,13 +12,15 @@ namespace Recipes.Catalog
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Catalog : StatefulService
+    internal sealed class Catalog : StatefulService, IRecipesCatalogService
     {
-        private IRecipeRepository _repository;
+        private readonly IRecipeRepository _repository;
 
         public Catalog(StatefulServiceContext context)
             : base(context)
-        { }
+        {
+            _repository = new RecipeRepository(StateManager);
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
@@ -29,29 +31,22 @@ namespace Recipes.Catalog
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[0];
+            return this.CreateServiceRemotingReplicaListeners();
+            //return new[]
+            //{
+            //    new ServiceReplicaListener(context => this.CreateServiceRemotingListener())
+            //};
+
         }
 
-        /// <summary>
-        /// This is the main entry point for your service replica.
-        /// This method executes when this replica of your service becomes primary and has write status.
-        /// </summary>
-        /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service replica.</param>
-        protected override async Task RunAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Recipe>> GetAllRecipies()
         {
-            _repository = new RecipeRepository(StateManager);
+            return await _repository.GetAllRecipes();
+        }
 
-            var recipe = new Recipe
-            {
-                Id = Guid.NewGuid(),
-                Description = "A lovely recipe to share with your friends and family",
-                Name = "A nice recipe",
-                Servings = 2
-            };
-
+        public async Task AddRecipe(Recipe recipe)
+        {
             await _repository.AddRecipe(recipe);
-
-            var recipes = await _repository.GetAllRecipes();
         }
     }
 }

@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.ServiceFabric" Version="6.1.472" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.0.472" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.472" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="3.0.472" />
   </ItemGroup>
 
   <ItemGroup>

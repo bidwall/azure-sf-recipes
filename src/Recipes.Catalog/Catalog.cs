@@ -2,7 +2,6 @@
 using System.Fabric;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Recipes.Catalog.Domain;
@@ -32,11 +31,6 @@ namespace Recipes.Catalog
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
             return this.CreateServiceRemotingReplicaListeners();
-            //return new[]
-            //{
-            //    new ServiceReplicaListener(context => this.CreateServiceRemotingListener())
-            //};
-
         }
 
         public async Task<IEnumerable<Recipe>> GetAllRecipies()

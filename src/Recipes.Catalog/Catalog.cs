@@ -31,6 +31,10 @@ namespace Recipes.Catalog
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
             return this.CreateServiceRemotingReplicaListeners();
+            //return new[]
+            //{
+            //    new ServiceReplicaListener(context => new FabricTransportServiceRemotingListener(context, this))
+            //};
         }
 
         public async Task<IEnumerable<Recipe>> GetRecipes()

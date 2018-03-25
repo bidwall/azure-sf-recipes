@@ -17,7 +17,7 @@ namespace Recipes.API.Controllers
 
         public RecipesController()
         {
-            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/Catalog"), new ServicePartitionKey(0));
+            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/CatalogService"), new ServicePartitionKey(0));
             //var serviceProxyFactory = new ServiceProxyFactory(context => new FabricTransportServiceRemotingClientFactory());
             //_catalogService = serviceProxyFactory.CreateServiceProxy<ICatalogService>(new Uri("fabric:/Recipes/Catalog"), new ServicePartitionKey(0));
         }

@@ -2,9 +2,9 @@
 using System.Diagnostics.Tracing;
 using System.Fabric;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
-    [EventSource(Name = "Recipes-Catalog")]
+    [EventSource(Name = "Recipes-CatalogService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
     internal static class Program
     {
@@ -19,9 +19,9 @@ namespace Recipes.Catalog
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("CatalogType", context => new Catalog(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("CatalogServiceType", context => new CatalogService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Catalog).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(CatalogService).Name);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);

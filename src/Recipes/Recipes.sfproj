@@ -32,7 +32,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Recipes.Catalog\Recipes.Catalog.csproj" />
+    <ProjectReference Include="..\Recipes.API\Recipes.API.csproj" />
+    <ProjectReference Include="..\Recipes.CatalogService\Recipes.CatalogService.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

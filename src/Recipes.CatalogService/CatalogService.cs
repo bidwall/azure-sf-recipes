@@ -6,16 +6,16 @@ using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Recipes.CatalogService.Domain;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Catalog : StatefulService, ICatalogService
+    internal sealed class CatalogService : StatefulService, ICatalogService
     {
         private readonly ICatalogRepository _repository;
 
-        public Catalog(StatefulServiceContext context)
+        public CatalogService(StatefulServiceContext context)
             : base(context)
         {
             _repository = new CatalogRepository(StateManager);

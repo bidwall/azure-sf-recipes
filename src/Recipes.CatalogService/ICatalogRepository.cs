@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Recipes.CatalogService.Domain;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
     public interface ICatalogRepository
     {

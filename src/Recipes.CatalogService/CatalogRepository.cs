@@ -6,7 +6,7 @@ using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
 using Recipes.CatalogService.Domain;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
     public class CatalogRepository : ICatalogRepository
     {

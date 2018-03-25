@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Remoting;
 
-namespace Recipes.Catalog.Domain
+namespace Recipes.CatalogService.Domain
 {
     public interface ICatalogService : IService
     {

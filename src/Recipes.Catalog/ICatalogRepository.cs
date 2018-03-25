@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Recipes.Catalog.Domain;
+using Recipes.CatalogService.Domain;
 
 namespace Recipes.Catalog
 {

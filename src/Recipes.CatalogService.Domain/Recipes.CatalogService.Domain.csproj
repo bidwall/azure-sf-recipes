@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Recipes.CatalogService.Domain</RootNamespace>
+    <AssemblyName>Recipes.CatalogService.Domain</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

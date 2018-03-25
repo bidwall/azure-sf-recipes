@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
-using Recipes.Catalog.Domain;
+using Recipes.CatalogService.Domain;
 
 namespace Recipes.Catalog
 {

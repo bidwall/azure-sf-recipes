@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Recipes.API.Model;
-using Recipes.Catalog.Domain;
+using Recipes.CatalogService.Domain;
 
 namespace Recipes.API.Controllers
 {

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Recipes.Catalog.Domain\Recipes.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\Recipes.Catalog.Domain\Recipes.Catalog.Domain.csproj" />
   </ItemGroup>
 
 </Project>

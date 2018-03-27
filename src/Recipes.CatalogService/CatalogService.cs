@@ -37,7 +37,7 @@ namespace Recipes.CatalogService
             //};
         }
 
-        public async Task<IEnumerable<Recipe>> GetRecipes()
+        public async Task<Recipe[]> GetRecipes()
         {
             return await _repository.GetRecipes();
         }

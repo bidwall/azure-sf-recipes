@@ -17,7 +17,7 @@ namespace Recipes.CatalogService
             _stateManager = stateManager;
         }
 
-        public async Task<IEnumerable<Recipe>> GetRecipes()
+        public async Task<Recipe[]> GetRecipes()
         {
             var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>("recipes");
             var result = new List<Recipe>();
@@ -36,7 +36,7 @@ namespace Recipes.CatalogService
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         public async Task AddRecipe(Recipe recipe)

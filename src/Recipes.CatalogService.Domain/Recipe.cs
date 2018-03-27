@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Recipes.Catalog.Domain
+namespace Recipes.CatalogService.Domain
 {
     public class Recipe
     {

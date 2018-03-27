@@ -6,34 +6,41 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Recipes.API.Model;
-using Recipes.Catalog.Domain;
+using Recipes.CatalogService.Domain;
 
 namespace Recipes.API.Controllers
 {
     [Route("api/[controller]")]
     public class RecipesController : Controller
     {
-        private readonly IRecipesCatalogService _recipesCatalogService;
+        private readonly ICatalogService _catalogService;
 
         public RecipesController()
         {
-            //fabric:/ApplicationName/ServiceName
-            var uri = "fabric:/Recipes/Recipes.Catalog";
-            _recipesCatalogService = ServiceProxy.Create<IRecipesCatalogService>(new Uri(uri), 
-                                                                                 new ServicePartitionKey(0));
+            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/CatalogService"), new ServicePartitionKey(0));
+            //var serviceProxyFactory = new ServiceProxyFactory(context => new FabricTransportServiceRemotingClientFactory());
+            //_catalogService = serviceProxyFactory.CreateServiceProxy<ICatalogService>(new Uri("fabric:/Recipes/Catalog"), new ServicePartitionKey(0));
         }
 
         [HttpGet]
         public async Task<IEnumerable<ApiRecipe>> Get()
         {
-            var allRecipies = await _recipesCatalogService.GetAllRecipies();
-
-            return allRecipies.Select(r => new ApiRecipe
+            try
             {
-                Id = r.Id,
-                Description = r.Description,
-                Name = r.Name
-            });
+                var recipes = await _catalogService.GetRecipes();
+
+                return recipes.Select(r => new ApiRecipe
+                {
+                    Id = r.Id,
+                    Description = r.Description,
+                    Name = r.Name
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         // GET api/values/5
@@ -55,7 +62,7 @@ namespace Recipes.API.Controllers
                 Servings = recipe.Servings
             };
 
-            await _recipesCatalogService.AddRecipe(newRecipe);
+            await _catalogService.AddRecipe(newRecipe);
         }
 
         // PUT api/values/5

@@ -4,20 +4,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
-using Recipes.Catalog.Domain;
+using Recipes.CatalogService.Domain;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
-    public class RecipeRepository : IRecipeRepository
+    public class CatalogRepository : ICatalogRepository
     {
         private readonly IReliableStateManager _stateManager;
 
-        public RecipeRepository(IReliableStateManager stateManager)
+        public CatalogRepository(IReliableStateManager stateManager)
         {
             _stateManager = stateManager;
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllRecipes()
+        public async Task<Recipe[]> GetRecipes()
         {
             var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>("recipes");
             var result = new List<Recipe>();
@@ -36,7 +36,7 @@ namespace Recipes.Catalog
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         public async Task AddRecipe(Recipe recipe)

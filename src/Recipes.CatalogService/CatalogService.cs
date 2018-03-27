@@ -2,24 +2,23 @@
 using System.Fabric;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Recipes.Catalog.Domain;
+using Recipes.CatalogService.Domain;
 
-namespace Recipes.Catalog
+namespace Recipes.CatalogService
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Catalog : StatefulService, IRecipesCatalogService
+    internal sealed class CatalogService : StatefulService, ICatalogService
     {
-        private readonly IRecipeRepository _repository;
+        private readonly ICatalogRepository _repository;
 
-        public Catalog(StatefulServiceContext context)
+        public CatalogService(StatefulServiceContext context)
             : base(context)
         {
-            _repository = new RecipeRepository(StateManager);
+            _repository = new CatalogRepository(StateManager);
         }
 
         /// <summary>
@@ -34,14 +33,13 @@ namespace Recipes.Catalog
             return this.CreateServiceRemotingReplicaListeners();
             //return new[]
             //{
-            //    new ServiceReplicaListener(context => this.CreateServiceRemotingListener())
+            //    new ServiceReplicaListener(context => new FabricTransportServiceRemotingListener(context, this))
             //};
-
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllRecipies()
+        public async Task<Recipe[]> GetRecipes()
         {
-            return await _repository.GetAllRecipes();
+            return await _repository.GetRecipes();
         }
 
         public async Task AddRecipe(Recipe recipe)

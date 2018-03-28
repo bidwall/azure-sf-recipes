@@ -11,6 +11,7 @@ namespace Recipes.CatalogService
     public class CatalogRepository : ICatalogRepository
     {
         private readonly IReliableStateManager _stateManager;
+        private const string DictionaryName = "recipes";
 
         public CatalogRepository(IReliableStateManager stateManager)
         {
@@ -19,7 +20,7 @@ namespace Recipes.CatalogService
 
         public async Task<Recipe[]> GetRecipes()
         {
-            var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>("recipes");
+            var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>(DictionaryName);
             var result = new List<Recipe>();
 
             using (var tx = _stateManager.CreateTransaction())
@@ -41,7 +42,7 @@ namespace Recipes.CatalogService
 
         public async Task AddRecipe(Recipe recipe)
         {
-            var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>("recipes");
+            var recipes = await _stateManager.GetOrAddAsync<IReliableDictionary<Guid, Recipe>>(DictionaryName);
 
             using (var tx = _stateManager.CreateTransaction())
             {

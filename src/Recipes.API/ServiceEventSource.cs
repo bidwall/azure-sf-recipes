@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Recipes.API
 {
-    [EventSource(Name = "MyCompany-Recipes-Recipes.API")]
+    [EventSource(Name = "Recipes-Recipes.API")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

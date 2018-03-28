@@ -3,6 +3,7 @@ using System.Fabric;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Recipes.CatalogService.Domain;
 
@@ -30,11 +31,11 @@ namespace Recipes.CatalogService
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return this.CreateServiceRemotingReplicaListeners();
-            //return new[]
-            //{
-            //    new ServiceReplicaListener(context => new FabricTransportServiceRemotingListener(context, this))
-            //};
+            //return this.CreateServiceRemotingReplicaListeners();
+            return new[]
+            {
+                new ServiceReplicaListener(context => new FabricTransportServiceRemotingListener(context, this))
+            };
         }
 
         public async Task<Recipe[]> GetRecipes()

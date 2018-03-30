@@ -23,13 +23,13 @@ namespace Recipes.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ApiRecipe>> Get()
+        public async Task<IEnumerable<RecipeModel>> Get()
         {
             try
             {
                 var recipes = await _catalogService.GetRecipes();
 
-                return recipes.Select(r => new ApiRecipe
+                return recipes.Select(r => new RecipeModel
                 {
                     Id = r.Id,
                     Description = r.Description,
@@ -52,14 +52,14 @@ namespace Recipes.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody]ApiRecipe recipe)
+        public async Task Post([FromBody]RecipeModel recipeModel)
         {
             var newRecipe = new Recipe
             {
                 Id = Guid.NewGuid(),
-                Description = recipe.Description,
-                Name = recipe.Name,
-                Servings = recipe.Servings
+                Description = recipeModel.Description,
+                Name = recipeModel.Name,
+                Servings = recipeModel.Servings
             };
 
             await _catalogService.AddRecipe(newRecipe);

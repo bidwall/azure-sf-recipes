@@ -41,7 +41,7 @@ namespace Recipes.API.Controllers
         [HttpPost]
         public async Task Post([FromBody]RecipeModel recipe)
         {
-            await _catalogService.AddRecipe(recipe.ToDomain());
+            await _catalogService.SaveRecipe(recipe.ToDomain());
         }
 
         // PUT api/values/5

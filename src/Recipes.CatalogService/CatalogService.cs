@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Fabric;
-using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
+﻿using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Recipes.CatalogService.Domain;
+using System;
+using System.Collections.Generic;
+using System.Fabric;
+using System.Threading.Tasks;
 
 namespace Recipes.CatalogService
 {
@@ -36,14 +37,24 @@ namespace Recipes.CatalogService
             };
         }
 
+        public async Task SaveRecipe(Recipe recipe)
+        {
+            await _repository.SaveRecipe(recipe);
+        }
+
+        public async Task<Recipe> GetRecipe(Guid id)
+        {
+            return await _repository.GetRecipe(id);
+        }
+
         public async Task<Recipe[]> GetRecipes()
         {
             return await _repository.GetRecipes();
         }
 
-        public async Task AddRecipe(Recipe recipe)
+        public async Task DeleteRecipe(Guid id)
         {
-            await _repository.SaveRecipe(recipe);
+            await _repository.DeleteRecipe(id);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
+using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Client;
 using Recipes.API.Model;
 using Recipes.CatalogService.Domain;
 
@@ -17,64 +18,51 @@ namespace Recipes.API.Controllers
 
         public RecipesController()
         {
-            _catalogService = ServiceProxy.Create<ICatalogService>(new Uri("fabric:/Recipes/CatalogService"), new ServicePartitionKey(0));
-            //var serviceProxyFactory = new ServiceProxyFactory(context => new FabricTransportServiceRemotingClientFactory());
-            //_catalogService = serviceProxyFactory.CreateServiceProxy<ICatalogService>(new Uri("fabric:/Recipes/Catalog"), new ServicePartitionKey(0));
+            var serviceProxyFactory = new ServiceProxyFactory(context => new FabricTransportServiceRemotingClientFactory());
+            _catalogService = serviceProxyFactory.CreateServiceProxy<ICatalogService>(new Uri("fabric:/Recipes/CatalogService"), new ServicePartitionKey(0));
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ApiRecipe>> Get()
+        public async Task<IEnumerable<RecipeModel>> Get()
         {
-            try
-            {
-                var recipes = await _catalogService.GetRecipes();
+            var recipes = await _catalogService.GetRecipes();
 
-                return recipes.Select(r => new ApiRecipe
-                {
-                    Id = r.Id,
-                    Description = r.Description,
-                    Name = r.Name
-                });
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return recipes.Select(r => r.ToModel());
         }
 
-        // GET api/values/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var recipe = await _catalogService.GetRecipe(id);
 
-        // POST api/values
+            if (recipe != null)
+            {
+                return Ok(recipe);
+            }
+
+            return NotFound();
+        }
+
         [HttpPost]
-        public async Task Post([FromBody]ApiRecipe recipe)
+        public async Task<IActionResult> Post([FromBody]RecipeModel recipe)
         {
-            var newRecipe = new Recipe
-            {
-                Id = Guid.NewGuid(),
-                Description = recipe.Description,
-                Name = recipe.Name,
-                Servings = recipe.Servings
-            };
+            await _catalogService.SaveRecipe(recipe.ToDomain());
 
-            await _catalogService.AddRecipe(newRecipe);
+            return StatusCode(201);
         }
 
-        // PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        [HttpPut("{id:guid}")]
+        public async Task Put([FromBody]Recipe recipe)
+        {
+            await _catalogService.SaveRecipe(recipe);
+        }
 
-        // DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _catalogService.DeleteRecipe(id);
+
+            return NoContent();
+        }
     }
 }

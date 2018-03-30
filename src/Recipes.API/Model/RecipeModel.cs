@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Recipes.API.Model
 {
-    public class ApiRecipe
+    public class RecipeModel
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }

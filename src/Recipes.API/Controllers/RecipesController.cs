@@ -29,12 +29,7 @@ namespace Recipes.API.Controllers
             {
                 var recipes = await _catalogService.GetRecipes();
 
-                return recipes.Select(r => new RecipeModel
-                {
-                    Id = r.Id,
-                    Description = r.Description,
-                    Name = r.Name
-                });
+                return recipes.Select(r => r.ToModel());
             }
             catch (Exception e)
             {
@@ -52,17 +47,9 @@ namespace Recipes.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody]RecipeModel recipeModel)
+        public async Task Post([FromBody]RecipeModel recipe)
         {
-            var newRecipe = new Recipe
-            {
-                Id = Guid.NewGuid(),
-                Description = recipeModel.Description,
-                Name = recipeModel.Name,
-                Servings = recipeModel.Servings
-            };
-
-            await _catalogService.AddRecipe(newRecipe);
+            await _catalogService.AddRecipe(recipe.ToDomain());
         }
 
         // PUT api/values/5

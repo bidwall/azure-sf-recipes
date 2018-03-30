@@ -31,15 +31,24 @@ namespace Recipes.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<Recipe> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return await _catalogService.GetRecipe(id);
+            var recipe = await _catalogService.GetRecipe(id);
+
+            if (recipe != null)
+            {
+                return Ok(recipe);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
-        public async Task Post([FromBody]RecipeModel recipe)
+        public async Task<IActionResult> Post([FromBody]RecipeModel recipe)
         {
             await _catalogService.SaveRecipe(recipe.ToDomain());
+
+            return StatusCode(201);
         }
 
         [HttpPut("{id:guid}")]
@@ -49,9 +58,11 @@ namespace Recipes.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _catalogService.DeleteRecipe(id);
+
+            return NoContent();
         }
     }
 }

@@ -25,17 +25,9 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<RecipeModel>> Get()
         {
-            try
-            {
-                var recipes = await _catalogService.GetRecipes();
+            var recipes = await _catalogService.GetRecipes();
 
-                return recipes.Select(r => r.ToModel());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return recipes.Select(r => r.ToModel());
         }
 
         // GET api/values/5

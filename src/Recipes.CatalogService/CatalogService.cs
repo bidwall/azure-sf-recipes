@@ -43,7 +43,7 @@ namespace Recipes.CatalogService
 
         public async Task AddRecipe(Recipe recipe)
         {
-            await _repository.AddRecipe(recipe);
+            await _repository.SaveRecipe(recipe);
         }
     }
 }

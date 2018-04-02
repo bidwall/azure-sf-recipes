@@ -77,8 +77,7 @@ namespace Recipes.API.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var recipe = _catalogService.GetRecipe(id);
-            if (recipe == null)
+            if (await _catalogService.GetRecipe(id) == null)
                 return NotFound();
 
             await _catalogService.DeleteRecipe(id);

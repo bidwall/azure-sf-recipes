@@ -70,7 +70,7 @@ namespace Recipes.API.Controllers
             }
             catch (JsonPatchException exception)
             {
-                return BadRequest($"An error occured whilst updating book. {exception.Message}.");
+                return BadRequest($"An error occured whilst updating recipe. {exception.Message}.");
             }
         }
 

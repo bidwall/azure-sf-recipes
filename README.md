@@ -34,5 +34,16 @@ While, the catalog service is a stateful service, this service can be partitione
 ### Get a specific recipe
 `http://localhost:8808/api/recipes/deba9f93-ac91-4c43-80c8-46f002954c71`
 
+### Patch a specific recipe
+`http://localhost:8808/api/recipes/deba9f93-ac91-4c43-80c8-46f002954c71`
+
+```json
+[{
+    "op": "replace",
+    "path": "/servings",
+    "value": "3"
+}]
+```
+
 ### Delete an existing recipe
 `http://localhost:8808/api/recipes/deba9f93-ac91-4c43-80c8-46f002954c71`

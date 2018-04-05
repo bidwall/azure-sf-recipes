@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
@@ -51,15 +53,33 @@ namespace Recipes.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task Put([FromBody]Recipe recipe)
+        [HttpPatch("{id:guid}")]
+        public async Task<IActionResult> Patch(Guid id, [FromBody]JsonPatchDocument<RecipeModel> recipePatch)
         {
-            await _catalogService.SaveRecipe(recipe);
+            var recipe = await _catalogService.GetRecipe(id);
+            if (recipe == null)
+                return NotFound();
+
+            try
+            {
+                var recipeModel = recipe.ToModel();
+                recipePatch.ApplyTo(recipeModel);
+                await _catalogService.SaveRecipe(recipeModel.ToDomain());
+
+                return Ok(recipeModel);
+            }
+            catch (JsonPatchException exception)
+            {
+                return BadRequest($"An error occured whilst updating recipe. {exception.Message}.");
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            if (await _catalogService.GetRecipe(id) == null)
+                return NotFound();
+
             await _catalogService.DeleteRecipe(id);
 
             return NoContent();
